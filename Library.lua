@@ -1,4 +1,3 @@
-local cloneref = cloneref or function(a) return a; end;
 
 local InputService = game:GetService('UserInputService');
 local TextService = game:GetService('TextService');
@@ -10,8 +9,6 @@ local TweenService = game:GetService('TweenService');
 local RenderStepped = RunService.RenderStepped;
 local LocalPlayer = Players.LocalPlayer;
 local Mouse = LocalPlayer:GetMouse();
-
-
 local getgenv = getgenv or function() return {}; end;
 local uiOpen = false;
 local ProtectGui = protectgui or (syn and syn.protect_gui) or (function() end);
