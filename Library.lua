@@ -1,14 +1,17 @@
 local cloneref = cloneref or function(a) return a; end;
-local InputService =  cloneref(game:GetService('UserInputService'));
-local TextService =   cloneref(game:GetService('TextService'));
-local CoreGui =       cloneref(game:GetService("CoreGui"));
-local Teams =         cloneref(game:GetService('Teams'));
-local Players =       cloneref(game:GetService('Players'));
-local RunService =    cloneref(game:GetService('RunService'));
-local TweenService =  cloneref(game:GetService('TweenService'));
+
+local InputService = game:GetService('UserInputService');
+local TextService = game:GetService('TextService');
+local CoreGui = game:GetService('CoreGui');
+local Teams = game:GetService('Teams');
+local Players = game:GetService('Players');
+local RunService = game:GetService('RunService')
+local TweenService = game:GetService('TweenService');
 local RenderStepped = RunService.RenderStepped;
-local LocalPlayer =   cloneref(Players.LocalPlayer);
-local Mouse =         cloneref(LocalPlayer:GetMouse());
+local LocalPlayer = Players.LocalPlayer;
+local Mouse = LocalPlayer:GetMouse();
+
+
 local getgenv = getgenv or function() return {}; end;
 local uiOpen = false;
 local ProtectGui = protectgui or (syn and syn.protect_gui) or (function() end);
@@ -19,10 +22,10 @@ ProtectGui(ScreenGui);
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Global;
 ScreenGui.Parent = gethui and gethui() or CoreGui;
 
-RadiantToggles = {};
-RadiantOptions = {};
-getgenv().RadiantToggles = RadiantToggles;
-getgenv().RadiantOptions = RadiantOptions;
+RainToggles = {};
+RainOptions = {};
+getgenv().RainToggles = RainToggles;
+getgenv().RainOptions = RainOptions;
 
 local Library = {
     Registry = {};
@@ -631,7 +634,7 @@ do
 
         local ContextMenu = {}
         do
-            ContextMenu.RadiantOptions = {}
+            ContextMenu.RainOptions = {}
             ContextMenu.Container = Library:Create('Frame', {
                 BorderColor3 = Color3.new(),
                 ZIndex = 14,
@@ -957,7 +960,7 @@ do
         ColorPicker:Display();
         ColorPicker.DisplayFrame = DisplayFrame
 
-        RadiantOptions[Idx] = ColorPicker;
+        RainOptions[Idx] = ColorPicker;
 
         return self;
     end;
@@ -1118,7 +1121,7 @@ do
 
             ContainerLabel.Visible = true;
             ContainerLabel.TextColor3 = State and Library.AccentColor or Library.FontColor;
-            if not State and RadiantToggles.OnlyShowEnabledKeybinds and RadiantToggles.OnlyShowEnabledKeybinds.Value then
+            if not State and RainToggles.OnlyShowEnabledKeybinds and RainToggles.OnlyShowEnabledKeybinds.Value then
                 ContainerLabel.Visible = false;
             end;
             Library.RegistryMap[ContainerLabel].KEYBINDLABEL = true;
@@ -1288,7 +1291,7 @@ do
 
         KeyPicker:Update();
 
-        RadiantOptions[Idx] = KeyPicker;
+        RainOptions[Idx] = KeyPicker;
 
         return self;
     end;
@@ -1783,7 +1786,7 @@ end;
         Groupbox:AddBlank(5);
         Groupbox:Resize();
 
-        RadiantOptions[Idx] = Textbox;
+        RainOptions[Idx] = Textbox;
 
         return Textbox;
     end;
@@ -1920,7 +1923,7 @@ end;
         Toggle.Container = Container;
         setmetatable(Toggle, BaseAddons);
 
-        RadiantToggles[Idx] = Toggle;
+        RainToggles[Idx] = Toggle;
 
         Library:UpdateDependencyBoxes();
 
@@ -2118,7 +2121,7 @@ end;
         Groupbox:AddBlank(Info.BlankSize or 6);
         Groupbox:Resize();
 
-        RadiantOptions[Idx] = Slider;
+        RainOptions[Idx] = Slider;
 
         return Slider;
     end;
@@ -2565,7 +2568,7 @@ end;
         Groupbox:AddBlank(Info.BlankSize or 5);
         Groupbox:Resize();
 
-        RadiantOptions[Idx] = Dropdown;
+        RainOptions[Idx] = Dropdown;
 
         return Dropdown;
     end;
@@ -3650,7 +3653,7 @@ end;
 local function OnPlayerChange()
     local PlayerList = GetPlayersString();
 
-    for _, Value in next, RadiantOptions do
+    for _, Value in next, RainOptions do
         if Value.Type == 'Dropdown' and Value.SpecialType == 'Player' then
             Value:SetValues(PlayerList);
         end;
@@ -3738,7 +3741,7 @@ function KeyPicker:Update()
 
             ContainerLabel.Visible = true;
             ContainerLabel.TextColor3 = State and Library.AccentColor or Library.FontColor;
-            if not State and RadiantToggles.OnlyShowEnabledKeybinds and RadiantToggles.OnlyShowEnabledKeybinds.Value then
+            if not State and RainToggles.OnlyShowEnabledKeybinds and RainToggles.OnlyShowEnabledKeybinds.Value then
                 ContainerLabel.Visible = false;
             end;
             Library.RegistryMap[ContainerLabel].KEYBINDLABEL = true;
