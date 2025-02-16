@@ -17,10 +17,10 @@ ProtectGui(ScreenGui);
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Global;
 ScreenGui.Parent = gethui and gethui() or CoreGui;
 
-RainToggles = {};
-RainOptions = {};
-getgenv().RainToggles = RainToggles;
-getgenv().RainOptions = RainOptions;
+RadiantToggles = {};
+RadiantOptions = {};
+getgenv().RadiantToggles = RadiantToggles;
+getgenv().RadiantOptions = RadiantOptions;
 
 local Library = {
     Registry = {};
@@ -629,7 +629,7 @@ do
 
         local ContextMenu = {}
         do
-            ContextMenu.RainOptions = {}
+            ContextMenu.RadiantOptions = {}
             ContextMenu.Container = Library:Create('Frame', {
                 BorderColor3 = Color3.new(),
                 ZIndex = 14,
@@ -955,7 +955,7 @@ do
         ColorPicker:Display();
         ColorPicker.DisplayFrame = DisplayFrame
 
-        RainOptions[Idx] = ColorPicker;
+        RadiantOptions[Idx] = ColorPicker;
 
         return self;
     end;
@@ -1116,7 +1116,7 @@ do
 
             ContainerLabel.Visible = true;
             ContainerLabel.TextColor3 = State and Library.AccentColor or Library.FontColor;
-            if not State and RainToggles.OnlyShowEnabledKeybinds and RainToggles.OnlyShowEnabledKeybinds.Value then
+            if not State and RadiantToggles.OnlyShowEnabledKeybinds and RadiantToggles.OnlyShowEnabledKeybinds.Value then
                 ContainerLabel.Visible = false;
             end;
             Library.RegistryMap[ContainerLabel].KEYBINDLABEL = true;
@@ -1286,7 +1286,7 @@ do
 
         KeyPicker:Update();
 
-        RainOptions[Idx] = KeyPicker;
+        RadiantOptions[Idx] = KeyPicker;
 
         return self;
     end;
@@ -1781,7 +1781,7 @@ end;
         Groupbox:AddBlank(5);
         Groupbox:Resize();
 
-        RainOptions[Idx] = Textbox;
+        RadiantOptions[Idx] = Textbox;
 
         return Textbox;
     end;
@@ -1918,7 +1918,7 @@ end;
         Toggle.Container = Container;
         setmetatable(Toggle, BaseAddons);
 
-        RainToggles[Idx] = Toggle;
+        RadiantToggles[Idx] = Toggle;
 
         Library:UpdateDependencyBoxes();
 
@@ -2116,7 +2116,7 @@ end;
         Groupbox:AddBlank(Info.BlankSize or 6);
         Groupbox:Resize();
 
-        RainOptions[Idx] = Slider;
+        RadiantOptions[Idx] = Slider;
 
         return Slider;
     end;
@@ -2563,7 +2563,7 @@ end;
         Groupbox:AddBlank(Info.BlankSize or 5);
         Groupbox:Resize();
 
-        RainOptions[Idx] = Dropdown;
+        RadiantOptions[Idx] = Dropdown;
 
         return Dropdown;
     end;
@@ -3648,7 +3648,7 @@ end;
 local function OnPlayerChange()
     local PlayerList = GetPlayersString();
 
-    for _, Value in next, RainOptions do
+    for _, Value in next, RadiantOptions do
         if Value.Type == 'Dropdown' and Value.SpecialType == 'Player' then
             Value:SetValues(PlayerList);
         end;
