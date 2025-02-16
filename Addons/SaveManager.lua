@@ -274,24 +274,17 @@ local SaveManager = {} do
 			task.spawn(function()
 				xpcall(function()
 					task.wait(2.5)
-					if not self.Library or not self.Library.RegistryMap then
-						warn("Library или RegistryMap не инициализированы")
-						return
-					end
-		
-					local container = self.Library.RegistryMap[ContainerLabel]
-					if not container then
-						warn("RegistryMap не содержит ключ:", ContainerLabel)
-						return
-					end
-		
-					for i, v in pairs(container) do
-						if v.KEYBINDLABEL and v.Properties and v.Properties.TextColor3 ~= "AccentColor" then
-							v.Visible = not RadiantToggles.OnlyShowEnabledKeybinds.Value
-						end
-					end
-				end, warn)
-			end)
+					if not self.Library or not self.Library.RegistryMap then return; end
+					for i, v in pairs(self.Library.RegistryMap[ContainerLabel]) do
+						if v.KEYBINDLABEL and v.Properties.TextColor3 ~= "AccentColor" then
+							v.Visible = not RadiantToggles.OnlyShowEnabledKeybinds.Value;
+						end;
+					end;
+				end,warn);
+			end);
+		end);
+		RadiantToggles.KeybindShower:OnChanged(function()
+			self.Library.KeybindFrame.Visible = RadiantToggles.KeybindShower.Value;
 		end)
 		
         section:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'End', NoUI = true, Text = 'Menu keybind' })
