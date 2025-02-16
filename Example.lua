@@ -71,13 +71,13 @@ LeftGroupBox:AddToggle('MyToggle', {
 -- To get the state of the toggle you do toggle.Value
 
 -- Calls the passed function when the toggle is updated
-RadiantToggles.MyToggle:OnChanged(function()
+RainToggles.MyToggle:OnChanged(function()
     -- here we get our toggle object & then get its value
-    print('MyToggle changed to:', RadiantToggles.MyToggle.Value)
+    print('MyToggle changed to:', RainToggles.MyToggle.Value)
 end)
 
 -- This should print to the console: "My toggle state changed! New value: false"
-RadiantToggles.MyToggle:SetValue(false)
+RainToggles.MyToggle:SetValue(false)
 
 -- 1/15/23
 -- Deprecated old way of creating buttons in favor of using a table
@@ -171,13 +171,13 @@ LeftGroupBox:AddSlider('MySlider', {
 -- You index Options with the specified index, in this case it is 'MySlider'
 -- To get the value of the slider you do slider.Value
 
-local Number = RadiantOptions.MySlider.Value
-RadiantOptions.MySlider:OnChanged(function()
-    print('MySlider was changed! New value:', RadiantOptions.MySlider.Value)
+local Number = RainOptions.MySlider.Value
+RainOptions.MySlider:OnChanged(function()
+    print('MySlider was changed! New value:', RainOptions.MySlider.Value)
 end)
 
 -- This should print to the console: "MySlider was changed! New value: 3"
-RadiantOptions.MySlider:SetValue(3)
+RainOptions.MySlider:SetValue(3)
 
 -- Groupbox:AddInput
 -- Arguments: Idx, Info
@@ -197,8 +197,8 @@ LeftGroupBox:AddInput('MyTextbox', {
     end
 })
 
-RadiantOptions.MyTextbox:OnChanged(function()
-    print('Text updated. New text:', RadiantOptions.MyTextbox.Value)
+RainOptions.MyTextbox:OnChanged(function()
+    print('Text updated. New text:', RainOptions.MyTextbox.Value)
 end)
 
 -- Groupbox:AddDropdown
@@ -217,11 +217,11 @@ LeftGroupBox:AddDropdown('MyDropdown', {
     end
 })
 
-RadiantOptions.MyDropdown:OnChanged(function()
-    print('Dropdown got changed. New value:', RadiantOptions.MyDropdown.Value)
+RainOptions.MyDropdown:OnChanged(function()
+    print('Dropdown got changed. New value:', RainOptions.MyDropdown.Value)
 end)
 
-RadiantOptions.MyDropdown:SetValue('This')
+RainOptions.MyDropdown:SetValue('This')
 
 -- Multi dropdowns
 LeftGroupBox:AddDropdown('MyMultiDropdown', {
@@ -242,15 +242,15 @@ LeftGroupBox:AddDropdown('MyMultiDropdown', {
     end
 })
 
-RadiantOptions.MyMultiDropdown:OnChanged(function()
+RainOptions.MyMultiDropdown:OnChanged(function()
     -- print('Dropdown got changed. New value:', )
     print('Multi dropdown got changed:')
-    for key, value in next, RadiantOptions.MyMultiDropdown.Value do
+    for key, value in next, RainOptions.MyMultiDropdown.Value do
         print(key, value) -- should print something like This, true
     end
 end)
 
-RadiantOptions.MyMultiDropdown:SetValue({
+RainOptions.MyMultiDropdown:SetValue({
     This = true,
     is = true,
 })
@@ -280,12 +280,12 @@ LeftGroupBox:AddLabel('Color'):AddColorPicker('ColorPicker', {
     end
 })
 
-RadiantOptions.ColorPicker:OnChanged(function()
-    print('Color changed!', RadiantOptions.ColorPicker.Value)
-    print('Transparency changed!', RadiantOptions.ColorPicker.Transparency)
+RainOptions.ColorPicker:OnChanged(function()
+    print('Color changed!', RainOptions.ColorPicker.Value)
+    print('Transparency changed!', RainOptions.ColorPicker.Transparency)
 end)
 
-RadiantOptions.ColorPicker:SetValueRGB(Color3.fromRGB(0, 255, 140))
+RainOptions.ColorPicker:SetValueRGB(Color3.fromRGB(0, 255, 140))
 
 -- Label:AddKeyPicker
 -- Arguments: Idx, Info
@@ -320,12 +320,12 @@ LeftGroupBox:AddLabel('Keybind'):AddKeyPicker('KeyPicker', {
 
 -- OnClick is only fired when you press the keybind and the mode is Toggle
 -- Otherwise, you will have to use Keybind:GetState()
-RadiantOptions.KeyPicker:OnClick(function()
-    print('Keybind clicked!', RadiantOptions.KeyPicker:GetState())
+RainOptions.KeyPicker:OnClick(function()
+    print('Keybind clicked!', RainOptions.KeyPicker:GetState())
 end)
 
-RadiantOptions.KeyPicker:OnChanged(function()
-    print('Keybind changed!', RadiantOptions.KeyPicker.Value)
+RainOptions.KeyPicker:OnChanged(function()
+    print('Keybind changed!', RainOptions.KeyPicker.Value)
 end)
 
 task.spawn(function()
@@ -333,7 +333,7 @@ task.spawn(function()
         wait(1)
 
         -- example for checking if a keybind is being pressed
-        local state = RadiantOptions.KeyPicker:GetState()
+        local state = RainOptions.KeyPicker:GetState()
         if state then
             print('KeyPicker is being held down')
         end
@@ -342,7 +342,7 @@ task.spawn(function()
     end
 end)
 
-RadiantOptions.KeyPicker:SetValue({ 'MB2', 'Toggle' }) -- Sets keybind to MB2, mode to Hold
+RainOptions.KeyPicker:SetValue({ 'MB2', 'Toggle' }) -- Sets keybind to MB2, mode to Hold
 
 -- Long text label to demonstrate UI scrolling behaviour.
 local LeftGroupBox2 = Tabs.Main:AddLeftGroupbox('Groupbox #2');
@@ -373,11 +373,11 @@ SubDepbox:AddSlider('DepboxSlider', { Text = 'Slider', Default = 50, Min = 0, Ma
 SubDepbox:AddDropdown('DepboxDropdown', { Text = 'Dropdown', Default = 1, Values = {'a', 'b', 'c'} });
 
 Depbox:SetupDependencies({
-    { RadiantToggles.ControlToggle, true } -- We can also pass `false` if we only want our features to show when the toggle is off!
+    { RainToggles.ControlToggle, true } -- We can also pass `false` if we only want our features to show when the toggle is off!
 });
 
 SubDepbox:SetupDependencies({
-    { RadiantToggles.DepboxToggle, true }
+    { RainToggles.DepboxToggle, true }
 });
 
 -- Library functions
@@ -419,7 +419,7 @@ local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
 -- I set NoUI so it does not show up in the keybinds menu
 MenuGroup:AddButton('Unload', function() Library:Unload() end)
 
-Library.ToggleKeybind = RadiantOptions.MenuKeybind -- Allows you to have a custom keybind for the menu
+Library.ToggleKeybind = RainOptions.MenuKeybind -- Allows you to have a custom keybind for the menu
 
 -- Addons:
 -- SaveManager (Allows you to have a configuration system)
