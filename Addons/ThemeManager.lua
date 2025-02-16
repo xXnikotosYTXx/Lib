@@ -28,8 +28,8 @@ local ThemeManager = {} do
 		for idx, col in next, customThemeData or scheme do
 			self.Library[idx] = Color3.fromHex(col)
 			
-			if RadiantOptions[idx] then
-				RadiantOptions[idx]:SetValueRGB(Color3.fromHex(col))
+			if RainOptions[idx] then
+				RainOptions[idx]:SetValueRGB(Color3.fromHex(col))
 			end
 		end
 
@@ -38,10 +38,10 @@ local ThemeManager = {} do
 
 	function ThemeManager:ThemeUpdate()
 		-- This allows us to force apply themes without loading the themes tab :)
-		local RadiantOptions = { "FontColor", "MainColor", "AccentColor", "BackgroundColor", "OutlineColor" }
-		for i, field in next, RadiantOptions do
-			if RadiantOptions and RadiantOptions[field] then
-				self.Library[field] = RadiantOptions[field].Value
+		local RainOptions = { "FontColor", "MainColor", "AccentColor", "BackgroundColor", "OutlineColor" }
+		for i, field in next, RainOptions do
+			if RainOptions and RainOptions[field] then
+				self.Library[field] = RainOptions[field].Value
 			end
 		end
 
@@ -66,7 +66,7 @@ local ThemeManager = {} do
 		end
 
 		if isDefault then
-			RadiantOptions.ThemeManager_ThemeList:SetValue(theme)
+			RainOptions.ThemeManager_ThemeList:SetValue(theme)
 		else
 			self:ApplyTheme(theme)
 		end
@@ -94,12 +94,12 @@ local ThemeManager = {} do
 		groupbox:AddDropdown('ThemeManager_ThemeList', { Text = 'Theme list', Values = ThemesArray, Default = 1 })
 
 		groupbox:AddButton('Set as default', function()
-			self:SaveDefault(RadiantOptions.ThemeManager_ThemeList.Value)
-			self.Library:Notify(string.format('Set default theme to %q', RadiantOptions.ThemeManager_ThemeList.Value))
+			self:SaveDefault(RainOptions.ThemeManager_ThemeList.Value)
+			self.Library:Notify(string.format('Set default theme to %q', RainOptions.ThemeManager_ThemeList.Value))
 		end)
 
-		RadiantOptions.ThemeManager_ThemeList:OnChanged(function()
-			self:ApplyTheme(RadiantOptions.ThemeManager_ThemeList.Value)
+		RainOptions.ThemeManager_ThemeList:OnChanged(function()
+			self:ApplyTheme(RainOptions.ThemeManager_ThemeList.Value)
 		end)
 
 		groupbox:AddDivider()
@@ -108,23 +108,23 @@ local ThemeManager = {} do
 		groupbox:AddDivider()
 		
 		groupbox:AddButton('Save theme', function() 
-			self:SaveCustomTheme(RadiantOptions.ThemeManager_CustomThemeName.Value)
+			self:SaveCustomTheme(RainOptions.ThemeManager_CustomThemeName.Value)
 
-			RadiantOptions.ThemeManager_CustomThemeList:SetValues(self:ReloadCustomThemes())
-			RadiantOptions.ThemeManager_CustomThemeList:SetValue(nil)
+			RainOptions.ThemeManager_CustomThemeList:SetValues(self:ReloadCustomThemes())
+			RainOptions.ThemeManager_CustomThemeList:SetValue(nil)
 		end):AddButton('Load theme', function() 
-			self:ApplyTheme(RadiantOptions.ThemeManager_CustomThemeList.Value) 
+			self:ApplyTheme(RainOptions.ThemeManager_CustomThemeList.Value) 
 		end)
 
 		groupbox:AddButton('Refresh list', function()
-			RadiantOptions.ThemeManager_CustomThemeList:SetValues(self:ReloadCustomThemes())
-			RadiantOptions.ThemeManager_CustomThemeList:SetValue(nil)
+			RainOptions.ThemeManager_CustomThemeList:SetValues(self:ReloadCustomThemes())
+			RainOptions.ThemeManager_CustomThemeList:SetValue(nil)
 		end)
 
 		groupbox:AddButton('Set as default', function()
-			if RadiantOptions.ThemeManager_CustomThemeList.Value ~= nil and RadiantOptions.ThemeManager_CustomThemeList.Value ~= '' then
-				self:SaveDefault(RadiantOptions.ThemeManager_CustomThemeList.Value)
-				self.Library:Notify(string.format('Set default theme to %q', RadiantOptions.ThemeManager_CustomThemeList.Value))
+			if RainOptions.ThemeManager_CustomThemeList.Value ~= nil and RainOptions.ThemeManager_CustomThemeList.Value ~= '' then
+				self:SaveDefault(RainOptions.ThemeManager_CustomThemeList.Value)
+				self.Library:Notify(string.format('Set default theme to %q', RainOptions.ThemeManager_CustomThemeList.Value))
 			end
 		end)
 
@@ -134,11 +134,11 @@ local ThemeManager = {} do
 			self:ThemeUpdate()
 		end
 
-		RadiantOptions.BackgroundColor:OnChanged(UpdateTheme)
-		RadiantOptions.MainColor:OnChanged(UpdateTheme)
-		RadiantOptions.AccentColor:OnChanged(UpdateTheme)
-		RadiantOptions.OutlineColor:OnChanged(UpdateTheme)
-		RadiantOptions.FontColor:OnChanged(UpdateTheme)
+		RainOptions.BackgroundColor:OnChanged(UpdateTheme)
+		RainOptions.MainColor:OnChanged(UpdateTheme)
+		RainOptions.AccentColor:OnChanged(UpdateTheme)
+		RainOptions.OutlineColor:OnChanged(UpdateTheme)
+		RainOptions.FontColor:OnChanged(UpdateTheme)
 	end
 
 	function ThemeManager:GetCustomTheme(file)
@@ -166,7 +166,7 @@ local ThemeManager = {} do
 		local fields = { "FontColor", "MainColor", "AccentColor", "BackgroundColor", "OutlineColor" }
 
 		for _, field in next, fields do
-			theme[field] = RadiantOptions[field].Value:ToHex()
+			theme[field] = RainOptions[field].Value:ToHex()
 		end
 
 		writefile(self.Folder .. '/themes/' .. file .. '.json', httpService:JSONEncode(theme))
