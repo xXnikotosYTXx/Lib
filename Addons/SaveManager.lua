@@ -270,22 +270,25 @@ local SaveManager = {} do
 			'Only Show Enabled Keybinds'
 		})
 
-		RainToggles.OnlyShowEnabledKeybinds:OnChanged(function()
-			task.spawn(function()
-				xpcall(function()
-					task.wait(2.5)
-					if not self.Library or not self.Library.RegistryMap then return; end
-					for i, v in pairs(self.Library.RegistryMap[ContainerLabel]) do
-						if v.KEYBINDLABEL and v.Properties.TextColor3 ~= "AccentColor" then
-							v.Visible = not RainToggles.OnlyShowEnabledKeybinds.Value;
-						end;
-					end;
-				end,warn);
-			end);
-		end);
-		RainToggles.KeybindShower:OnChanged(function()
-			self.Library.KeybindFrame.Visible = RainToggles.KeybindShower.Value;
-		end)
+RainToggles.OnlyShowEnabledKeybinds:OnChanged(function()
+    task.spawn(function()
+        xpcall(function()
+            task.wait(2.5)
+            if not self.Library or not self.Library.RegistryMap then return; end
+            local registry = self.Library.RegistryMap[ContainerLabel]
+            if not registry or type(registry) ~= "table" then return; end
+            for i, v in pairs(registry) do
+                if v.KEYBINDLABEL and v.Properties.TextColor3 ~= "AccentColor" then
+                    v.Visible = not RainToggles.OnlyShowEnabledKeybinds.Value;
+                end
+            end
+        end, function() end) -- игнорируем ошибки
+    end)
+end)
+
+RainToggles.KeybindShower:OnChanged(function()
+    self.Library.KeybindFrame.Visible = RainToggles.KeybindShower.Value;
+end)
 		
         section:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'End', NoUI = true, Text = 'Menu keybind' })
 
