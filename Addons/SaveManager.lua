@@ -10,8 +10,8 @@ local SaveManager = {} do
 				return { type = 'Toggle', idx = idx, value = object.Value } 
 			end,
 			Load = function(idx, data)
-				if RainToggles[idx] then 
-					RainToggles[idx]:SetValue(data.value)
+				if RadiantToggles[idx] then 
+					RadiantToggles[idx]:SetValue(data.value)
 				end
 			end,
 		},
@@ -113,7 +113,7 @@ local SaveManager = {} do
 			data.chatLoggerSize = udim2ToTable(game:GetService("CoreGui").thisisachatloggerpleasebanme.Frame.Size);
 		end;
 
-		for idx, toggle in next, RainToggles do
+		for idx, toggle in next, RadiantToggles do
 			if self.Ignore[idx] then
 				continue
 			end
@@ -270,21 +270,21 @@ local SaveManager = {} do
 			'Only Show Enabled Keybinds'
 		})
 
-		RainToggles.OnlyShowEnabledKeybinds:OnChanged(function()
+		RadiantToggles.OnlyShowEnabledKeybinds:OnChanged(function()
 			task.spawn(function()
 				xpcall(function()
 					task.wait(2.5)
 					if not self.Library or not self.Library.RegistryMap then return; end
 					for i, v in pairs(self.Library.RegistryMap[ContainerLabel]) do
 						if v.KEYBINDLABEL and v.Properties.TextColor3 ~= "AccentColor" then
-							v.Visible = not RainToggles.OnlyShowEnabledKeybinds.Value;
+							v.Visible = not RadiantToggles.OnlyShowEnabledKeybinds.Value;
 						end;
 					end;
 				end,warn);
 			end);
 		end);
-		RainToggles.KeybindShower:OnChanged(function()
-			self.Library.KeybindFrame.Visible = RainToggles.KeybindShower.Value;
+		RadiantToggles.KeybindShower:OnChanged(function()
+			self.Library.KeybindFrame.Visible = RadiantToggles.KeybindShower.Value;
 		end)
 		
         section:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'End', NoUI = true, Text = 'Menu keybind' })
