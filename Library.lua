@@ -1,4 +1,3 @@
-
 local cloneref = cloneref or function(a) return a; end;
 local InputService =  cloneref(game:GetService('UserInputService'));
 local TextService =   cloneref(game:GetService('TextService'));
