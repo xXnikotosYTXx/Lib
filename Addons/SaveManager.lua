@@ -20,8 +20,8 @@ local SaveManager = {} do
 				return { type = 'Slider', idx = idx, value = tostring(object.Value) }
 			end,
 			Load = function(idx, data)
-				if RainOptions[idx] then 
-					RainOptions[idx]:SetValue(data.value)
+				if RadiantOptions[idx] then 
+					RadiantOptions[idx]:SetValue(data.value)
 				end
 			end,
 		},
@@ -30,8 +30,8 @@ local SaveManager = {} do
 				return { type = 'Dropdown', idx = idx, value = object.Value, mutli = object.Multi }
 			end,
 			Load = function(idx, data)
-				if RainOptions[idx] then 
-					RainOptions[idx]:SetValue(data.value)
+				if RadiantOptions[idx] then 
+					RadiantOptions[idx]:SetValue(data.value)
 				end
 			end,
 		},
@@ -40,8 +40,8 @@ local SaveManager = {} do
 				return { type = 'ColorPicker', idx = idx, value = object.Value:ToHex(), transparency = object.Transparency }
 			end,
 			Load = function(idx, data)
-				if RainOptions[idx] then 
-					RainOptions[idx]:SetValueRGB(Color3.fromHex(data.value), data.transparency)
+				if RadiantOptions[idx] then 
+					RadiantOptions[idx]:SetValueRGB(Color3.fromHex(data.value), data.transparency)
 				end
 			end,
 		},
@@ -50,8 +50,8 @@ local SaveManager = {} do
 				return { type = 'KeyPicker', idx = idx, mode = object.Mode, key = object.Value }
 			end,
 			Load = function(idx, data)
-				if RainOptions[idx] then 
-					RainOptions[idx]:SetValue({ data.key, data.mode })
+				if RadiantOptions[idx] then 
+					RadiantOptions[idx]:SetValue({ data.key, data.mode })
 				end
 			end,
 		},
@@ -61,8 +61,8 @@ local SaveManager = {} do
 				return { type = 'Input', idx = idx, text = object.Value }
 			end,
 			Load = function(idx, data)
-				if RainOptions[idx] and type(data.text) == 'string' then
-					RainOptions[idx]:SetValue(data.text)
+				if RadiantOptions[idx] and type(data.text) == 'string' then
+					RadiantOptions[idx]:SetValue(data.text)
 				end
 			end,
 		},
@@ -121,7 +121,7 @@ local SaveManager = {} do
 			table.insert(data.objects, self.Parser[toggle.Type].Save(idx, toggle))
 		end
 
-		for idx, option in next, RainOptions do
+		for idx, option in next, RadiantOptions do
 			if not self.Parser[option.Type] then
 				continue
 			end
@@ -289,7 +289,7 @@ local SaveManager = {} do
 		
         section:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'End', NoUI = true, Text = 'Menu keybind' })
 
-        self.Library.ToggleKeybind = RainOptions.MenuKeybind -- Allows you to have a custom keybind for the menu
+        self.Library.ToggleKeybind = RadiantOptions.MenuKeybind -- Allows you to have a custom keybind for the menu
 
 		section:AddInput('SaveManager_ConfigName',    { Text = 'Config name' })
 		section:AddDropdown('SaveManager_ConfigList', { Text = 'Config list', Values = self:RefreshConfigList(), AllowNull = true })
@@ -297,7 +297,7 @@ local SaveManager = {} do
 		section:AddDivider()
 
 		section:AddButton('Create config', function()
-			local name = RainOptions.SaveManager_ConfigName.Value
+			local name = RadiantOptions.SaveManager_ConfigName.Value
 
 			if name:gsub(' ', '') == '' then 
 				return self.Library:Notify('Invalid config name (empty)', 2)
@@ -310,10 +310,10 @@ local SaveManager = {} do
 
 			self.Library:Notify(string.format('Created config %q', name))
 
-			RainOptions.SaveManager_ConfigList:SetValues(self:RefreshConfigList())
-			RainOptions.SaveManager_ConfigList:SetValue(nil)
+			RadiantOptions.SaveManager_ConfigList:SetValues(self:RefreshConfigList())
+			RadiantOptions.SaveManager_ConfigList:SetValue(nil)
 		end):AddButton('Load config', function()
-			local name = RainOptions.SaveManager_ConfigList.Value
+			local name = RadiantOptions.SaveManager_ConfigList.Value
 
 			local success, err = self:Load(name)
 			if not success then
@@ -324,7 +324,7 @@ local SaveManager = {} do
 		end)
 
 		section:AddButton('Overwrite config', function()
-			local name = RainOptions.SaveManager_ConfigList.Value
+			local name = RadiantOptions.SaveManager_ConfigList.Value
 
 			local success, err = self:Save(name)
 			if not success then
@@ -335,12 +335,12 @@ local SaveManager = {} do
 		end)
 
 		section:AddButton('Refresh list', function()
-			RainOptions.SaveManager_ConfigList:SetValues(self:RefreshConfigList())
-			RainOptions.SaveManager_ConfigList:SetValue(nil)
+			RadiantOptions.SaveManager_ConfigList:SetValues(self:RefreshConfigList())
+			RadiantOptions.SaveManager_ConfigList:SetValue(nil)
 		end)
 
 		section:AddButton('Set as autoload', function()
-			local name = RainOptions.SaveManager_ConfigList.Value
+			local name = RadiantOptions.SaveManager_ConfigList.Value
 			writefile(self.Folder .. '/settings/autoload.txt', name)
 			SaveManager.AutoloadLabel:SetText('Current autoload config: ' .. name)
 			self.Library:Notify(string.format('Set %q to auto load', name))
