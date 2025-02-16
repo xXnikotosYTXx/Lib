@@ -30,8 +30,8 @@ local SaveManager = {} do
 				return { type = 'Dropdown', idx = idx, value = object.Value, mutli = object.Multi }
 			end,
 			Load = function(idx, data)
-				if RainOptions[idx] then 
-					RainOptions[idx]:SetValue(data.value)
+				if Options[idx] then 
+					Options[idx]:SetValue(data.value)
 				end
 			end,
 		},
