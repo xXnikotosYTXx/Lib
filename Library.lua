@@ -1107,7 +1107,7 @@ do
             ModeButtons[Mode] = ModeButton;
         end;
 
-        function KeyPicker:Update()
+            function KeyPicker:Update()
             if Info.NoUI then
                 return;
             end;
