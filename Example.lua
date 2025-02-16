@@ -123,7 +123,7 @@ local MyButton2 = MyButton:AddButton({
 
 -- Groupbox:AddLabel
 -- Arguments: Text, DoesWrap
-LeftGroupBox:AddLabel('This is a label')
+LeftGroupBox:AddLabel('Thanks Union For the UILibrary ')
 LeftGroupBox:AddLabel('This is a label\n\nwhich wraps its text!', true)
 
 -- Groupbox:AddDivider
