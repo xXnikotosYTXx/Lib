@@ -270,7 +270,7 @@ local SaveManager = {} do
 			'Only Show Enabled Keybinds'
 		})
 
-local keybindActive = false -- Флаг для отслеживания состояния
+local keybindPrinted = false -- Флаг для предотвращения спама
 
 RainToggles.OnlyShowEnabledKeybinds:OnChanged(function()
     task.spawn(function()
@@ -279,14 +279,21 @@ RainToggles.OnlyShowEnabledKeybinds:OnChanged(function()
             if not self.Library or not self.Library.RegistryMap then return; end
             local registry = self.Library.RegistryMap[ContainerLabel]
             if not registry or type(registry) ~= "table" then return; end
+
+            local keybindFound = false
             for i, v in pairs(registry) do
                 if v.KEYBINDLABEL and v.Properties.TextColor3 ~= "AccentColor" then
                     v.Visible = not RainToggles.OnlyShowEnabledKeybinds.Value
-                    if not keybindActive then
-                        keybindActive = true
-                        print("KeyPicker is being held down") -- Выводим только один раз
-                    end
+                    keybindFound = true
                 end
+            end
+
+            -- Выводим сообщение только если найден активный кейбинд и ранее не печатали
+            if keybindFound and not keybindPrinted then
+                keybindPrinted = true
+                print("KeyPicker is being held down")
+            elseif not keybindFound then
+                keybindPrinted = false -- Сбрасываем флаг, если больше нет активных кейбиндов
             end
         end, function() end)
     end)
@@ -295,6 +302,7 @@ end)
 RainToggles.KeybindShower:OnChanged(function()
     self.Library.KeybindFrame.Visible = RainToggles.KeybindShower.Value;
 end)
+
 		
         section:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'End', NoUI = true, Text = 'Menu keybind' })
 
