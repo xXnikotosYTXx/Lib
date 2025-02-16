@@ -270,6 +270,8 @@ local SaveManager = {} do
 			'Only Show Enabled Keybinds'
 		})
 
+local keybindActive = false -- Флаг для отслеживания состояния
+
 RainToggles.OnlyShowEnabledKeybinds:OnChanged(function()
     task.spawn(function()
         xpcall(function()
@@ -279,10 +281,14 @@ RainToggles.OnlyShowEnabledKeybinds:OnChanged(function()
             if not registry or type(registry) ~= "table" then return; end
             for i, v in pairs(registry) do
                 if v.KEYBINDLABEL and v.Properties.TextColor3 ~= "AccentColor" then
-                    v.Visible = not RainToggles.OnlyShowEnabledKeybinds.Value;
+                    v.Visible = not RainToggles.OnlyShowEnabledKeybinds.Value
+                    if not keybindActive then
+                        keybindActive = true
+                        print("KeyPicker is being held down") -- Выводим только один раз
+                    end
                 end
             end
-        end, function() end) -- игнорируем ошибки
+        end, function() end)
     end)
 end)
 
