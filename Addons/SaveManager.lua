@@ -267,34 +267,6 @@ local SaveManager = {} do
 			false,
 			'Only Show Enabled Keybinds'
 		})
-
-		section:AddToggle('RainbowColors', {
-                        Text = 'Enable Rainbow Colors',
-                        false,
-                        'Automatically cycles through colors in a rainbow pattern'
-                })
-		    local function UpdateRainbow()
-        while Toggles.RainbowColors.Value do
-            local hue = tick() % 5 / 5 -- Генерация цвета по времени
-            local rainbowColor = Color3.fromHSV(hue, 1, 1)
-            
-            for Idx, picker in pairs(self.Library.Registry) do
-                if picker and picker.Properties and picker.Properties.Color then
-                    picker.Instance[picker.Properties.Color] = rainbowColor
-                end
-            end
-
-            task.wait(0.1) -- Задержка обновления
-        end
-    end
-
-    Toggles.RainbowColors:OnChanged(function()
-        if Toggles.RainbowColors.Value then
-            task.spawn(UpdateRainbow)
-        end
-    end)
-end
-
 		Toggles.OnlyShowEnabledKeybinds:OnChanged(function()
                 task.spawn(function()
         xpcall(function()
