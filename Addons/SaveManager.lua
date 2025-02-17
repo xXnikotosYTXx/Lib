@@ -271,23 +271,19 @@ local SaveManager = {} do
 		})
 
 		Toggles.OnlyShowEnabledKeybinds:OnChanged(function()
-   task.spawn(function()
-    xpcall(function()
-        task.wait(2.5)
-        if not self.Library or not self.Library.RegistryMap then return; end
-        local registry = self.Library.RegistryMap[ContainerLabel]
-        if not registry or type(registry) ~= "table" then return; end
-        for i, v in pairs(registry) do
-            if v.KEYBINDLABEL and v.Properties.TextColor3 ~= "AccentColor" then
-                v.Visible = not Toggles.OnlyShowEnabledKeybinds.Value;
-
-                -- Проверяем, если текст это "Keybind is being held down", скрываем его
-                if v.KEYBINDLABEL.Text == "Keybind is being held down" then
-                    v.KEYBINDLABEL.Visible = false
+                task.spawn(function()
+        xpcall(function()
+            task.wait(2.5)
+            if not self.Library or not self.Library.RegistryMap then return; end
+            local registry = self.Library.RegistryMap[ContainerLabel]
+            if not registry or type(registry) ~= "table" then return; end
+            for i, v in pairs(registry) do
+                if v.KEYBINDLABEL and v.Properties.TextColor3 ~= "AccentColor" then
+                    v.Visible = not Toggles.OnlyShowEnabledKeybinds.Value;
                 end
             end
-        end
-    end, function(err) warn(err) end) -- Лог ошибок для отладки
+        end, function() end) -- игнорируем ошибки
+    end)
 end)
 
 Toggles.KeybindShower:OnChanged(function()
