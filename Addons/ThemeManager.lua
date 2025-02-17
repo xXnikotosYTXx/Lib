@@ -41,7 +41,7 @@ local ThemeManager = {} do
 		local Options = { "FontColor", "MainColor", "AccentColor", "BackgroundColor", "OutlineColor" }
 		for i, field in next, Options do
 			if Options and Options[field] then
-				self.Library[field] = RaiOptionsnOptions[field].Value
+				self.Library[field] = Options[field].Value
 			end
 		end
 
