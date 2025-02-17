@@ -617,35 +617,6 @@ do
             });
         end;
 
-        local RainbowToggle = Library:Create('TextButton', {
-        BackgroundColor3 = Library.MainColor;
-        BorderColor3 = Library.OutlineColor;
-        Size = UDim2.new(1, -8, 0, 15);
-        Position = UDim2.new(0, 4, 1, -20);
-        Text = 'Rainbow';
-        TextColor3 = Library.FontColor;
-        TextSize = 14;
-        ZIndex = 19;
-        Parent = DisplayFrame;
-    });
-
-    RainbowToggle.MouseButton1Click:Connect(function()
-        ColorPicker.Rainbow = not ColorPicker.Rainbow;
-        RainbowToggle.Text = ColorPicker.Rainbow and 'Rainbow: ON' or 'Rainbow: OFF';
-    end);
-
-    task.spawn(function()
-        while task.wait() do
-            if ColorPicker.Rainbow then
-                local t = tick() * 0.5 % 1
-                ColorPicker.Value = Color3.fromHSV(t, 1, 1);
-                DisplayFrame.BackgroundColor3 = ColorPicker.Value;
-            end;
-        end;
-    end);
-end
-
-
         local DisplayLabel = Library:CreateLabel({
             Size = UDim2.new(1, 0, 0, 14);
             Position = UDim2.fromOffset(5, 5);
