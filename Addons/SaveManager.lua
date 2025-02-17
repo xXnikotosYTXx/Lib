@@ -270,8 +270,8 @@ local SaveManager = {} do
 
 		section:AddToggle('RainbowColors', {
                         Text = 'Enable Rainbow Colors',
-                        Default = false,
-                        Tooltip = 'Automatically cycles through colors in a rainbow pattern'
+                        false,
+                        'Automatically cycles through colors in a rainbow pattern'
                 })
 		    local function UpdateRainbow()
         while Toggles.RainbowColors.Value do
