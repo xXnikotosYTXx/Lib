@@ -392,63 +392,37 @@ do
     local Funcs = {};
 
     function Funcs:AddColorPicker(Idx, Info)
-    local ToggleLabel = self.TextLabel;
-    assert(Info.Default, 'AddColorPicker: Missing default value.');
+        local ToggleLabel = self.TextLabel;
+        -- local Container = self.Container;
 
-    local ColorPicker = {
-        Value = Info.Default;
-        Transparency = Info.Transparency or 0;
-        Type = 'ColorPicker';
-        Title = type(Info.Title) == 'string' and Info.Title or 'Color picker',
-        Callback = Info.Callback or function(Color) end;
-        Rainbow = false, -- Флаг для режима радуги
-    };
+        assert(Info.Default, 'AddColorPicker: Missing default value.');
 
-    function ColorPicker:SetHSVFromRGB(Color)
-        local H, S, V = Color3.toHSV(Color);
-        ColorPicker.Hue = H;
-        ColorPicker.Sat = S;
-        ColorPicker.Vib = V;
-    end;
+        local ColorPicker = {
+            Value = Info.Default;
+            Transparency = Info.Transparency or 0;
+            Type = 'ColorPicker';
+            Title = type(Info.Title) == 'string' and Info.Title or 'Color picker',
+            Callback = Info.Callback or function(Color) end;
+        };
 
-    ColorPicker:SetHSVFromRGB(ColorPicker.Value);
+        function ColorPicker:SetHSVFromRGB(Color)
+            local H, S, V = Color3.toHSV(Color);
 
-    local DisplayFrame = Library:Create('Frame', {
-        BackgroundColor3 = ColorPicker.Value;
-        BorderColor3 = Library:GetDarkerColor(ColorPicker.Value);
-        BorderMode = Enum.BorderMode.Inset;
-        Size = UDim2.new(0, 28, 0, 14);
-        ZIndex = 6;
-        Parent = ToggleLabel;
-    });
+            ColorPicker.Hue = H;
+            ColorPicker.Sat = S;
+            ColorPicker.Vib = V;
+        end;
 
-    -- 🌈 Rainbow Toggle (Добавляем переключатель радуги)
-    local RainbowToggle = Funcs:AddToggle(Idx .. "_Rainbow", {
-        Text = "Rainbow Mode",
-        Default = false,
-        Callback = function(Value)
-            ColorPicker.Rainbow = Value
-        end
-    })
+        ColorPicker:SetHSVFromRGB(ColorPicker.Value);
 
-    -- 🌈 Rainbow Effect (Цикл изменения цвета)
-    task.spawn(function()
-        while true do
-            task.wait(0.1) -- Скорость смены цвета
-            if ColorPicker.Rainbow then
-                local t = tick() % 5 / 5 -- Плавное изменение цвета
-                ColorPicker.Value = Color3.fromHSV(t, 1, 1)
-                DisplayFrame.BackgroundColor3 = ColorPicker.Value
-                if ColorPicker.Callback then
-                    ColorPicker.Callback(ColorPicker.Value)
-                end
-            end
-        end
-    end)
-
-    return ColorPicker
-end
-
+        local DisplayFrame = Library:Create('Frame', {
+            BackgroundColor3 = ColorPicker.Value;
+            BorderColor3 = Library:GetDarkerColor(ColorPicker.Value);
+            BorderMode = Enum.BorderMode.Inset;
+            Size = UDim2.new(0, 28, 0, 14);
+            ZIndex = 6;
+            Parent = ToggleLabel;
+        });
 
         -- Transparency image taken from https://github.com/matas3535/SplixPrivateDrawingLibrary/blob/main/Library.lua cus i'm lazy
         local CheckerFrame = Library:Create('ImageLabel', {
