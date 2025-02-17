@@ -277,30 +277,23 @@ local SaveManager = {} do
         if not self.Library or not self.Library.RegistryMap then return; end
         local registry = self.Library.RegistryMap[ContainerLabel]
         if not registry or type(registry) ~= "table" then return; end
-        
-        local hasEnabledKeybind = false
-        
-        for _, v in pairs(registry) do
+        for i, v in pairs(registry) do
             if v.KEYBINDLABEL and v.Properties.TextColor3 ~= "AccentColor" then
                 v.Visible = not Toggles.OnlyShowEnabledKeybinds.Value;
-                
-                -- Проверяем, есть ли активные keybind'ы
-                if v.Visible then
-                    hasEnabledKeybind = true
+
+                -- Проверяем, если текст это "Keybind is being held down", скрываем его
+                if v.KEYBINDLABEL.Text == "Keybind is being held down" then
+                    v.KEYBINDLABEL.Visible = false
                 end
             end
         end
-
-        -- Убираем сообщение "Keybind is being held down" если есть активные бинды
-        if hasEnabledKeybind then
-            self.Library.KeybindFrame.Visible = false
-        end
-    end, function() end) -- Игнорируем ошибки
+    end, function(err) warn(err) end) -- Лог ошибок для отладки
 end)
 
 Toggles.KeybindShower:OnChanged(function()
     self.Library.KeybindFrame.Visible = Toggles.KeybindShower.Value;
 end)
+
 
 
 		
