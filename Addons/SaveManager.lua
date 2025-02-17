@@ -252,7 +252,36 @@ local SaveManager = {} do
 		end
 	end
 
+function ColorManager:BuildRainbowToggle(tab)
+    assert(self.Library, 'Must set ColorManager.Library')
 
+    section:AddToggle('RainbowColors', {
+        Text = 'Enable Rainbow Colors',
+        Default = false,
+        Tooltip = 'Automatically cycles through colors in a rainbow pattern'
+    })
+
+    local function UpdateRainbow()
+        while Toggles.RainbowColors.Value do
+            local hue = tick() % 5 / 5 -- Генерация цвета по времени
+            local rainbowColor = Color3.fromHSV(hue, 1, 1)
+            
+            for key, picker in pairs(self.ColorPickers) do
+                if picker and picker.Value then
+                    picker:SetValue(rainbowColor)
+                end
+            end
+
+            task.wait(0.1) -- Задержка обновления
+        end
+    end
+
+    Toggles.RainbowColors:OnChanged(function()
+        if Toggles.RainbowColors.Value then
+            task.spawn(UpdateRainbow)
+        end
+    end)
+end
 	function SaveManager:BuildConfigSection(tab)
 		assert(self.Library, 'Must set SaveManager.Library')
 
